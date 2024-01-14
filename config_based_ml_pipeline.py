@@ -11,6 +11,7 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 
 def load_dataset(name, random_seed=None):
     # Load dataset based on name
+    # TODO: What other datasets can be used?
     if name.lower() == "iris":
         dataset = load_iris()
     else:
@@ -32,10 +33,13 @@ def build_pipeline(config):
     dataset_params = config.get("dataset", {}).get("params", {})
     X_train, X_test, y_train, y_test = load_dataset(dataset_name, **dataset_params)
 
+    # TODO: What other pre-processing steps can be used besides
+    # Scaling and imputation?
     for step_config in config["preprocessing_steps"]:
         step_name = step_config["name"]
         step_params = step_config.get("params", {})
 
+        # Handle missing values
         if step_name == "imputation":
             step = (step_name, SimpleImputer(**step_params))
         elif step_name == "scaling":
@@ -48,6 +52,7 @@ def build_pipeline(config):
     model_name = config["model"]["name"]
     model_params = config["model"].get("params", {})
 
+    # TODO: Add linear regression
     if model_name == "LogisticRegression":
         model = LogisticRegression(**model_params)
     elif model_name == "RandomForestClassifier":
@@ -71,18 +76,23 @@ def pipeline_wrapper():
 
     predictions = pipeline.predict(x_test)
 
-    # Print the classification report
-    print("Classification Report:")
-    print(classification_report(y_test, predictions))
+    # TODO: move to a separate method, and add validations for other types of models
+    model_type = config["model"]["type"]
 
-    # Print the confusion matrix
-    print("Confusion Matrix:")
-    print(confusion_matrix(y_test, predictions))
+    if model_type == "Classifier":
+        # Print the classification report
+        print("Classification Report:")
+        print(classification_report(y_test, predictions))
 
-    # Print the overall accuracy
-    print("Accuracy Score:")
-    print(accuracy_score(y_test, predictions))
+        # Print the confusion matrix
+        print("Confusion Matrix:")
+        print(confusion_matrix(y_test, predictions))
+
+        # Print the overall accuracy
+        print("Accuracy Score:")
+        print(accuracy_score(y_test, predictions))
 
 
 if __name__ == "__main__":
+    # TODO: Accept config file name as input
     pipeline_wrapper()

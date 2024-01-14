@@ -9,5 +9,9 @@
         {"name": "imputation", "params": {"strategy": "mean"}},
         {"name": "scaling", "params": {}}
     ],
-    "model": {"name": "RandomForestClassifier", "params": {"n_estimators": 100, "max_depth": null}}
+    "model": {
+        "name": "RandomForestClassifier",
+        "type": "Classifier",
+        "params": {"n_estimators": 100, "max_depth": null}
+    }
 }
