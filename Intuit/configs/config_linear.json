@@ -1,6 +1,6 @@
 {
     "dataset": {
-        "name": "iris",
+        "name": "california_housing",
         "params": {
             "random_seed": 42
         }
@@ -10,8 +10,9 @@
         {"name": "scaling", "params": {}}
     ],
     "model": {
-        "name": "RandomForestClassifier",
-        "type": "Classifier",
-        "params": {"n_estimators": 100, "max_depth": null}
-    }
+        "name": "LinearRegression",
+        "type": "Regressor",
+        "params": {}
+    },
+    "model_output_path": "linear_regression_model.joblib"
 }
