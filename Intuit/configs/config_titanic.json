@@ -20,5 +20,5 @@
         "type": "Classifier",
         "params": {"penalty": "l2", "C": 1.0, "solver": "lbfgs", "max_iter": 100}
     },
-    "model_output_path": "models/logistic_regression_model.joblib"
+    "model_output_path": "models/titanic_logistic_regression_model.joblib"
 }

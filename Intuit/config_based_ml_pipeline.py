@@ -71,7 +71,7 @@ def load_dataset(config):
 
         return x_train, x_test, y_train, y_test
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while loading the dataset: {e}")
         raise e
 
 
@@ -112,32 +112,36 @@ def build_pipeline(config):
     preprocessing and modeling.
     :return: The constructed scikit-learn pipeline.
     """
-    steps = []
+    try:
+        steps = []
 
-    for step_config in config["preprocessing_steps"]:
-        step_name = step_config["name"]
-        step_params = step_config.get("params", {})
+        for step_config in config["preprocessing_steps"]:
+            step_name = step_config["name"]
+            step_params = step_config.get("params", {})
 
-        # Handle missing values
-        if step_name == "imputation":
-            step = (step_name, SimpleImputer(**step_params))
-        elif step_name == "scaling":
-            step = (step_name, StandardScaler(**step_params))
-        elif step_name == "onehot":
-            categorical_features = step_params.get("categorical_features", [])
-            step = ("onehot", ColumnTransformer(transformers=
-                                                [("onehot", OneHotEncoder(), categorical_features)],
-                                                remainder='passthrough'))
+            # Handle missing values
+            if step_name == "imputation":
+                step = (step_name, SimpleImputer(**step_params))
+            elif step_name == "scaling":
+                step = (step_name, StandardScaler(**step_params))
+            elif step_name == "onehot":
+                categorical_features = step_params.get("categorical_features", [])
+                step = ("onehot", ColumnTransformer(transformers=
+                                                    [("onehot", OneHotEncoder(), categorical_features)],
+                                                    remainder='passthrough'))
 
-        else:
-            raise ValueError(f"Unknown preprocessing step: {step_name}")
+            else:
+                raise ValueError(f"Unknown preprocessing step: {step_name}")
 
-        steps.append(step)
+            steps.append(step)
 
-    model = create_model(config)
-    steps.append(("model", model))
+        model = create_model(config)
+        steps.append(("model", model))
 
-    return Pipeline(steps)
+        return Pipeline(steps)
+    except Exception as e:
+        print(f"An error occurred while constructing the pipeline: {e}")
+        raise
 
 
 def evaluate_model(y_test, predictions, config):
