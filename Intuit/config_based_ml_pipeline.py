@@ -2,8 +2,9 @@ import sys
 import json
 import joblib
 from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -11,26 +12,47 @@ from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.datasets import load_iris, fetch_california_housing, load_diabetes   # Import dataset loader
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.metrics import mean_squared_error, r2_score
+import pandas as pd
 
 
-def load_dataset(name, random_seed=None):
-    # Load dataset based on name
+def load_dataset(config):
+    # Load the specified dataset
+    dataset_type = config.get("dataset", {}).get("type")
+    dataset_params = config.get("dataset", {}).get("params", {})
 
-    if name.lower() == "iris":
-        dataset = load_iris()
-    elif name.lower() == "california_housing":
-        dataset = fetch_california_housing()
-    elif name.lower() == "diabetes":
-        dataset = load_diabetes()
+    if dataset_type == "file":
+        dataset_path = config.get("dataset", {}).get("dataset_path")
+        dataset = pd.read_csv(dataset_path)
+        target_column = config.get("dataset", {}).get("target_column")
+        feat_columns = config.get("dataset", {}).get("features")
+        print(feat_columns)
+
+        features = dataset[feat_columns]
+        target = dataset[target_column]
     else:
-        raise ValueError(f"Unknown dataset: {name}")
+        dataset_name = config.get("dataset", {}).get("name")
 
-    print("dataset.target = ", dataset.target)
+        if dataset_name.lower() == "iris":
+            dataset = load_iris()
+        elif dataset_name.lower() == "california_housing":
+            dataset = fetch_california_housing()
+        elif dataset_name.lower() == "diabetes":
+            dataset = load_diabetes()
+        else:
+            raise ValueError(f"Unknown dataset: {dataset_name}")
+
+        features = dataset.data
+        target = dataset.target
+
     # Split the dataset into features (X) and labels (y)
+    # TBD: move test_size to configuration?
+
+    print("features = ", features)
     x_train, x_test, y_train, y_test = train_test_split(
-        dataset.data, dataset.target, test_size=0.2, random_state=random_seed
+       features, target, test_size=0.2, random_state=dataset_params.get("random_seed")
     )
 
+    print("X, data types = ", type(x_train), type(x_test))
     return x_train, x_test, y_train, y_test
 
 
@@ -71,6 +93,10 @@ def build_pipeline(config):
             step = (step_name, SimpleImputer(**step_params))
         elif step_name == "scaling":
             step = (step_name, StandardScaler(**step_params))
+        elif step_name == "onehot":
+            categorical_features = step_params.get("categorical_features", [])
+            step = ("onehot", ColumnTransformer(transformers=[("onehot", OneHotEncoder(), categorical_features)], remainder='passthrough'))
+
         else:
             raise ValueError(f"Unknown preprocessing step: {step_name}")
 
@@ -126,9 +152,7 @@ def pipeline_wrapper():
         config = json.load(f)
 
     # Load the specified dataset
-    dataset_name = config.get("dataset", {}).get("name")
-    dataset_params = config.get("dataset", {}).get("params", {})
-    x_train, x_test, y_train, y_test = load_dataset(dataset_name, **dataset_params)
+    x_train, x_test, y_train, y_test = load_dataset(config)
 
     pipeline = build_pipeline(config)
 

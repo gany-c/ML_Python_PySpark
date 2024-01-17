@@ -1,6 +1,7 @@
 {
     "dataset": {
         "name": "california_housing",
+        "type": "inbuilt",
         "params": {
             "random_seed": 42
         }
@@ -14,5 +15,5 @@
         "type": "Regressor",
         "params": {}
     },
-    "model_output_path": "linear_regression_model.joblib"
+    "model_output_path": "models/linear_regression_model.joblib"
 }
