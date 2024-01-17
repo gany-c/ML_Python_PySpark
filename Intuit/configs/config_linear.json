@@ -3,7 +3,8 @@
         "name": "california_housing",
         "type": "inbuilt",
         "params": {
-            "random_seed": 42
+            "random_seed": 42,
+            "test_size": 0.2
         }
     },
     "preprocessing_steps": [

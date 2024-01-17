@@ -16,48 +16,70 @@ import pandas as pd
 
 
 def load_dataset(config):
-    # Load the specified dataset
-    dataset_type = config.get("dataset", {}).get("type")
-    dataset_params = config.get("dataset", {}).get("params", {})
+    """
+    Loads the dataset specified in the config.
+    This can either be a local file e.g. Titancic
+    or an inbuilt sklearn dataset e.g. Iris or California
+    housing.
 
-    if dataset_type == "file":
-        dataset_path = config.get("dataset", {}).get("dataset_path")
-        dataset = pd.read_csv(dataset_path)
-        target_column = config.get("dataset", {}).get("target_column")
-        feat_columns = config.get("dataset", {}).get("features")
-        print(feat_columns)
+    Also does the test train split.
 
-        features = dataset[feat_columns]
-        target = dataset[target_column]
-    else:
-        dataset_name = config.get("dataset", {}).get("name")
+    :param config: Configuration dict
+    :return: The loaded dataset, split into test and train
+    """
+    try:
+        # Load the specified dataset
+        dataset_type = config.get("dataset", {}).get("type")
+        dataset_params = config.get("dataset", {}).get("params", {})
 
-        if dataset_name.lower() == "iris":
-            dataset = load_iris()
-        elif dataset_name.lower() == "california_housing":
-            dataset = fetch_california_housing()
-        elif dataset_name.lower() == "diabetes":
-            dataset = load_diabetes()
+        if dataset_type == "file":
+            dataset_path = config.get("dataset", {}).get("dataset_path")
+            try:
+                dataset = pd.read_csv(dataset_path)
+            except FileNotFoundError as fnf:
+                print(f"File not found at path: {dataset_path}")
+                raise fnf
+
+            target_column = config.get("dataset", {}).get("target_column")
+            feat_columns = config.get("dataset", {}).get("features")
+
+            features = dataset[feat_columns]
+            target = dataset[target_column]
         else:
-            raise ValueError(f"Unknown dataset: {dataset_name}")
+            dataset_name = config.get("dataset", {}).get("name")
 
-        features = dataset.data
-        target = dataset.target
+            if dataset_name.lower() == "iris":
+                dataset = load_iris()
+            elif dataset_name.lower() == "california_housing":
+                dataset = fetch_california_housing()
+            elif dataset_name.lower() == "diabetes":
+                dataset = load_diabetes()
+            else:
+                raise ValueError(f"Unknown dataset: {dataset_name}")
 
-    # Split the dataset into features (X) and labels (y)
-    # TBD: move test_size to configuration?
+            features = dataset.data
+            target = dataset.target
 
-    print("features = ", features)
-    x_train, x_test, y_train, y_test = train_test_split(
-       features, target, test_size=0.2, random_state=dataset_params.get("random_seed")
-    )
+        test_size = config.get("dataset", {}).get("params", {}).get("test_size", 0.2)
+        if not 0 <= test_size <= 1:
+            raise ValueError(f"Invalid test size: {test_size}. It should be a float between 0 and 1.")
 
-    print("X, data types = ", type(x_train), type(x_test))
-    return x_train, x_test, y_train, y_test
+        # Split the dataset into features (X) and labels (y)
+        x_train, x_test, y_train, y_test = train_test_split(
+           features, target, test_size=test_size, random_state=dataset_params.get("random_seed")
+        )
+
+        return x_train, x_test, y_train, y_test
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise e
 
 
 def create_model(config):
     """
+    Currently the pipeline supports Linear Regression,
+    Logistic Regression and RandomForestClassifiers
+
     Parameters:
         config (dict): Configuration dictionary containing model details.
 
@@ -80,10 +102,18 @@ def create_model(config):
 
 
 def build_pipeline(config):
+    """
+    Build a scikit-learn pipeline based on the provided configuration.
+    It does both pre-processing and model creation
+
+    Pre-processing supports Imputation, Scaling and OneHot Encoding
+
+    :param config: Configuration dictionary containing details for
+    preprocessing and modeling.
+    :return: The constructed scikit-learn pipeline.
+    """
     steps = []
 
-    # TODO: What other pre-processing steps can be used besides
-    # Scaling and imputation?
     for step_config in config["preprocessing_steps"]:
         step_name = step_config["name"]
         step_params = step_config.get("params", {})
@@ -95,7 +125,9 @@ def build_pipeline(config):
             step = (step_name, StandardScaler(**step_params))
         elif step_name == "onehot":
             categorical_features = step_params.get("categorical_features", [])
-            step = ("onehot", ColumnTransformer(transformers=[("onehot", OneHotEncoder(), categorical_features)], remainder='passthrough'))
+            step = ("onehot", ColumnTransformer(transformers=
+                                                [("onehot", OneHotEncoder(), categorical_features)],
+                                                remainder='passthrough'))
 
         else:
             raise ValueError(f"Unknown preprocessing step: {step_name}")
@@ -109,6 +141,23 @@ def build_pipeline(config):
 
 
 def evaluate_model(y_test, predictions, config):
+    """
+    Evaluate the performance of a machine learning model based on the
+    provided predictions and configuration.
+
+    Parameters:
+        y_test (array-like): True labels or values of the target variable.
+        predictions (array-like): Predicted labels or values from the model.
+        config (dict): Configuration dictionary containing model details.
+
+    Returns:
+        None
+
+    Raises:
+        ValueError: If the model type in the configuration is neither
+        'Classifier' nor 'Regressor'.
+    """
+
     model_type = config["model"]["type"]
 
     if model_type == "Classifier":
@@ -137,19 +186,54 @@ def evaluate_model(y_test, predictions, config):
 
 
 def save_pipeline(pipeline, output_path):
+    """
+    Saves the model/pipeline to an external path
+    using the joblib utility
+
+    :param pipeline:
+    :param output_path:
+    :return:
+    """
     joblib.dump(pipeline, output_path)
 
 
+def load_config_from_file(config_file_path):
+    """
+    Load configuration from a JSON file.
+
+    Parameters:
+        config_file_path (str): Path to the JSON configuration file.
+
+    Returns:
+        dict: Configuration loaded from the file.
+    """
+    with open(config_file_path, 'r') as f:
+        config = json.load(f)
+    return config
+
+
 def pipeline_wrapper():
+    """
+    The main method
+
+    1. Loads the configuration
+    2. Loads the dataset from the configuration
+    3. Builds the sklearn pipeline from the configuration
+    4. Run training using the pipeline
+    5. Save the pipeline to an external file
+    6. Make predictions using the pipeline
+    7. Print evaluation metrics on the model
+
+    :return:
+    """
 
     print(sys.argv)
     if len(sys.argv) < 2:
         print("Please provided a config file: python config_based_ml_pipeline.py config.json")
         sys.exit(1)
 
-    config_file = sys.argv[1]
-    with open(config_file, 'r') as f:
-        config = json.load(f)
+    config_file_path = sys.argv[1]
+    config = load_config_from_file(config_file_path)
 
     # Load the specified dataset
     x_train, x_test, y_train, y_test = load_dataset(config)
@@ -161,6 +245,7 @@ def pipeline_wrapper():
 
     save_pipeline(pipeline, config["model_output_path"])
 
+    # This runs the pipeline's preprocessing steps and prediction of the test data
     predictions = pipeline.predict(x_test)
 
     evaluate_model(y_test, predictions, config)

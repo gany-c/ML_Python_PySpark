@@ -6,7 +6,8 @@
         "features": ["Pclass", "Sex", "Age", "Embarked"],
         "target_column": "Survived",
         "params": {
-            "random_seed": 42
+            "random_seed": 42,
+            "test_size": 0.2
         }
     },
     "preprocessing_steps": [
