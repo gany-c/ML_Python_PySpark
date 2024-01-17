@@ -1,0 +1,23 @@
+{
+    "dataset": {
+        "name": "titanic",
+        "type": "file",
+        "dataset_path": "datasets/titanic.csv",
+        "features": ["Pclass", "Sex", "Age", "Embarked"],
+        "target_column": "Survived",
+        "params": {
+            "random_seed": 42
+        }
+    },
+    "preprocessing_steps": [
+        {"name": "onehot", "params": {"categorical_features": ["Sex", "Embarked"]}},
+        {"name": "imputation", "params": {"strategy": "mean"}},
+        {"name": "scaling", "params": {}}
+    ],
+    "model": {
+        "name": "LogisticRegression",
+        "type": "Classifier",
+        "params": {"penalty": "l2", "C": 1.0, "solver": "lbfgs", "max_iter": 100}
+    },
+    "model_output_path": "models/logistic_regression_model.joblib"
+}
