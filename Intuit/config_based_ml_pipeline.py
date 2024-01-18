@@ -174,6 +174,9 @@ def evaluate_model(y_test, predictions, config):
         print(confusion_matrix(y_test, predictions))
 
         # Print the overall accuracy
+        """
+        Accuracy = (True Positives + True Negatives)/ Total Number of Predictions
+        """
         print("Accuracy Score:")
         print(accuracy_score(y_test, predictions))
 
