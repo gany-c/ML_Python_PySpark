@@ -1,0 +1,50 @@
+Different sources provide the authority for tax rules and procedures. Here are some sources that can be searched online for free.
+
+Internal Revenue Code
+The Constitution gives Congress the power to tax. Congress typically enacts Federal tax law in the Internal Revenue Code of 1986 (IRC).
+
+The sections of the IRC can be found in Title 26 of the United States Code (26 USC). An electronic version of the current United States Code is made available to the public by Congress.
+
+Browse "Title 26—Internal Revenue Code" to see the table of contents for the IRC.
+"Jump To" to a specific section of Title 26 to find the text for that IRC provision. For example, you can "Jump To" Title 26 Section 24 to find the provision for the child tax credit in the IRC.
+Use the Advanced Search feature to search only in Title 26 for a specific term. For example, you can search for "child tax credit" in Title 26 to find section 24 of the IRC, shown as 26 USC 24.
+Caution: Before relying on any IRC section retrieved from this or any other website, check to see whether the provision that's displayed shows laws that became effective after the tax year you're researching. It's also possible that updates from a recent law haven't yet been reflected in the provision. Additionally, sometimes Congress enacts laws that are not part of the IRC but nonetheless impact Federal tax law. Historical versions of the United States Code (back to 1994) are available electronically on GovInfo, a website from the U.S. Government Publishing Office (GPO).
+
+The IRC is complex, and its sections must be read in the context of the entire Code, the Treasury Regulations, and the court decisions that interpret it.
+
+Since shortly after the federal income tax was enacted in 1913, some individuals and groups have encouraged others not to comply with the tax laws. There have been unsuccessful challenges about the applicability of tax laws using a variety of arguments. Despite the courts having consistently rejected these arguments, their promoters continue to expound them, even incurring penalties for bringing frivolous cases into court or for filing frivolous tax returns. They often present their arguments in a pseudo-legal format, luring unsuspecting people into participating in their schemes to evade taxes Do not be misled by the false interpretations of the IRC promoted by the purveyors of anti-tax law evasion schemes.
+
+Treasury (tax) regulations
+Treasury regulations—commonly referred to as federal tax regulations—provide the official interpretation of the IRC by the U.S. Department of the Treasury and give directions to taxpayers on how to comply with the IRC's requirements.
+
+Treasury regulation sections can be found in Title 26 of the Code of Federal Regulations (26 CFR). An electronic version of the current Code of Federal Regulations is made available to the public by the National Archives and Records Administration (NARA) and the GPO.
+
+Browse "Title 26 :: Internal Revenue" to see the table of contents for the current Treasury Regulations.
+"Go" to a specific section of Title 26 to find the current text for that Treasury Regulation. For example, you can "Go" to 26 CFR 1.61-1 to find regulations defining gross income.
+Search for a term only in Title 26. For example, you can search on "gross income" in Title 26 to find the current text for 26 CFR 1.61-1.
+Historical versions of the Code of Federal Regulations (back to 1996) are available on GovInfo.
+
+Other sources of information pertaining to treasury regulations:
+As required by law, all regulatory documents are published in the Federal Register (FR). They are also republished in the Internal Revenue Bulletin. Historical issues of the Federal Register (back to 1936) are available on GovInfo.
+Access Regulations.gov for a complete list of the proposed regulations still open for public comment and to read public comments submitted for recent proposed regulations.
+Access plain language summaries of proposed regulations and final or temporary regulations (called Treasury Decisions) issued from August 1995 through March 2007.
+Other official tax guidance
+In addition to participating in the issuance of treasury (tax) regulations, the IRS publishes other forms of official tax guidance, including revenue rulings, revenue procedures, notices, and announcements. See Understanding IRS Guidance - A Brief Primer for more information about IRS guidance.
+
+The authoritative source for the distribution of all forms of official IRS tax guidance is the Internal Revenue Bulletin (IRB), a weekly collection of these and other items of general interest to the tax professional community. The IRS publishes the IRB.
+
+Mid-2003 to present: Access individual articles in the HTML format through a list of Internal Revenue Bulletins in HTML
+1996 to present: Browse a list of Internal Revenue Bulletins published in a printer-friendly PDF format
+1919-2008: GovInfo has all IRB guidance through 2008. The guidance is found in the Cumulative Bulletin (CB) for the year it was published. For example, guidance published in the first six months of 1981 can be found in Internal Revenue Cumulative Bulletin 1981-1. Guidance published in the final six months of 1981 can be found in Internal Revenue Cumulative Bulletin 1981-2. The IRS stopped publishing the Cumulative Bulletin in 2008. For anything after 2008, use the weekly IRB.
+To find a specific guidance item by its numerical title, check the Numerical Finding List among the last pages of the IRB published at the end of June (for example, IRB 2022-26 for 2022) and at the end of December (for example, IRB 2022-52 for 2022). If you wanted to find "Revenue Procedure 2022-12" about simplified procedures to claim tax credits, the Numerical Finding List in IRB 2022-26 would show that it was published on page 494 of IRB 2022-7.
+
+The IRS frequently releases individual items in advance of their publication in the IRB. See Advance Notice for Tax Professionals for more information about the "early drop" of these items. And if you'd like to receive automated email notifications about these items, please subscribe to our IRS GuideWire service.
+
+Finally, see Applicable Federal Rates (AFRs) Rulings for a series of revenue rulings providing certain prescribed rates for federal income tax purposes. These AFR revenue rulings are always released before they are officially published in the IRB.
+
+Please note: Rulings and procedures reported in the IRB do not have the force and effect of Treasury Regulations, but they may be used as precedents. In contrast, any documents not published in the IRB cannot be relied on, used, or cited as precedents in the disposition of other cases.
+
+In applying rulings and procedures published in the IRB, the effect of subsequent legislation, regulations, court decisions, rulings, and procedures must be considered. In addition, all parties are cautioned against reaching the same conclusions in other cases unless the facts and circumstances are substantially the same.
+
+Other reference dources — frequently asked questions (FAQs)
+FAQs are a valuable alternative to guidance published in the IRB because they allow the IRS to quickly communicate information to the public on topics of frequent inquiry and general applicability. Accordingly, FAQs may not address any particular taxpayer's specific facts and circumstances, and they may be updated or modified upon further review. Because FAQs are not published in the IRB, they will not be relied on or used by the IRS to resolve a case. Similarly, if an FAQ turns out to be an inaccurate statement of the law as applied to a particular taxpayer's case, the law will control the taxpayer's tax liability. Nonetheless, a taxpayer who reasonably and in good faith relies on FAQs will not be subject to a penalty that provides a reasonable cause standard for relief, including a negligence penalty or other accuracy-related penalty, to the extent that reliance results in an underpayment of tax. More information about reliance is available.
